@@ -12,6 +12,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
 import javax.swing.JSlider;
 import javax.swing.JButton;
+import javax.swing.ImageIcon;
 
 public class PanelContrato extends JPanel {
 
@@ -28,6 +29,34 @@ public class PanelContrato extends JPanel {
 		
 		JToolBar toolBar = new JToolBar();
 		add(toolBar, BorderLayout.NORTH);
+		
+		JButton btnPrimero = new JButton("");
+		btnPrimero.setIcon(new ImageIcon(PanelContrato.class.getResource("/res/gotostart.png")));
+		toolBar.add(btnPrimero);
+		
+		JButton btnAnterior = new JButton("");
+		btnAnterior.setIcon(new ImageIcon(PanelContrato.class.getResource("/res/previous.png")));
+		toolBar.add(btnAnterior);
+		
+		JButton btnSiguiente = new JButton("");
+		btnSiguiente.setIcon(new ImageIcon(PanelContrato.class.getResource("/res/next.png")));
+		toolBar.add(btnSiguiente);
+		
+		JButton btnUltimo = new JButton("");
+		btnUltimo.setIcon(new ImageIcon(PanelContrato.class.getResource("/res/gotoend.png")));
+		toolBar.add(btnUltimo);
+		
+		JButton btnNuevo = new JButton("");
+		btnNuevo.setIcon(new ImageIcon(PanelContrato.class.getResource("/res/nuevo.png")));
+		toolBar.add(btnNuevo);
+		
+		JButton btnGuardar = new JButton("");
+		btnGuardar.setIcon(new ImageIcon(PanelContrato.class.getResource("/res/guardar.png")));
+		toolBar.add(btnGuardar);
+		
+		JButton btnEliminar = new JButton("");
+		btnEliminar.setIcon(new ImageIcon(PanelContrato.class.getResource("/res/eliminar.png")));
+		toolBar.add(btnEliminar);
 		
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.CENTER);
@@ -157,13 +186,6 @@ public class PanelContrato extends JPanel {
 		gbc_btnUsuario.gridx = 2;
 		gbc_btnUsuario.gridy = 6;
 		panel.add(btnUsuario, gbc_btnUsuario);
-		
-		JButton btnGuardar = new JButton("Guardar");
-		GridBagConstraints gbc_btnGuardar = new GridBagConstraints();
-		gbc_btnGuardar.insets = new Insets(0, 0, 0, 5);
-		gbc_btnGuardar.gridx = 1;
-		gbc_btnGuardar.gridy = 8;
-		panel.add(btnGuardar, gbc_btnGuardar);
 
 	}
 
