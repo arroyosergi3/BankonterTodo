@@ -1,4 +1,4 @@
-package model;
+package principal.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -8,11 +8,11 @@ import java.util.Date;
 /**
  * The persistent class for the contrato database table.
  * 
- */ 
+ */
 @Entity
 @Table(name="contrato")
 @NamedQuery(name="Contrato.findAll", query="SELECT c FROM Contrato c")
-public class Contrato extends principal.model.Entidad implements Serializable {
+public class Contrato extends Entidad implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

@@ -1,4 +1,4 @@
-package model;
+package principal.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Table(name="tipocontrato")
 @NamedQuery(name="Tipocontrato.findAll", query="SELECT t FROM Tipocontrato t")
-public class Tipocontrato extends principal.model.Entidad implements Serializable {
+public class Tipocontrato extends Entidad implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

@@ -1,4 +1,4 @@
-package model;
+package principal.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Table(name="usuario")
 @NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u")
-public class Usuario extends principal.model.Entidad implements Serializable {
+public class Usuario extends Entidad implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
