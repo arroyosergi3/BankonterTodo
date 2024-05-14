@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import principal.model.Entidad;
+import principal.model.Tipocontrato;
 
 
 public class Controlador {
@@ -50,6 +51,18 @@ public class Controlador {
 			Entidad entidad = (Entidad) em.find(this.entidadControlada, id);
 			em.close();
 			return entidad;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	public List<? extends Entidad> findbyString(String str, String nombretabla) {
+		try {
+			EntityManager em = getEntityManagerFactory().createEntityManager();
+			List<? extends Entidad> l = em.createNativeQuery("select * from "+ nombretabla + " where UPPER(descripcion) like '%"+str.toUpperCase()+"%'", Tipocontrato.class).getResultList();
+			em.close();
+			return l;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;
@@ -197,7 +210,7 @@ public class Controlador {
 	/**
 	 * 
 	 */
-	public List<Entidad> findAll () {
+	public List<? extends Entidad> findAll () {
 		EntityManager em = getEntityManagerFactory().createEntityManager();
 
 		TypedQuery<Entidad> q = em.createQuery("SELECT e FROM " + this.nombreEntidadControlada + " e", this.entidadControlada);
