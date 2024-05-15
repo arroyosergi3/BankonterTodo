@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 
 import principal.controllers.ControladorTipOContrato;
 import principal.controllers.DatosDeTabla;
+import principal.model.Contrato;
 import principal.model.Tipocontrato;
 
 import java.awt.GridBagConstraints;
@@ -17,6 +18,13 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.event.CaretListener;
 import javax.swing.event.CaretEvent;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PanelTipoDeContrato extends JPanel {
 
@@ -27,6 +35,8 @@ public class PanelTipoDeContrato extends JPanel {
 	private Object datosEnTabla[][] = DatosDeTabla.getDatosDeTabla();
 	private String titulosEnTabla[] = DatosDeTabla.getTitulosColumnas();
 	private JScrollPane scrollPane;
+	private JButton btnOk;
+	private static Tipocontrato currentTipoContrato = null;
 
 	/**
 	 * Create the panel.
@@ -34,9 +44,9 @@ public class PanelTipoDeContrato extends JPanel {
 	public PanelTipoDeContrato() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		jtfBusqueda = new JTextField();
@@ -55,6 +65,7 @@ public class PanelTipoDeContrato extends JPanel {
 		
 		 scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
@@ -63,8 +74,49 @@ public class PanelTipoDeContrato extends JPanel {
 		
 		this.dtm = getDefaultTableModelNoEditable();
 		table = new JTable(dtm);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				super.mouseClicked(e);
+				Object value = datosEnTabla[table.getSelectedRow()][0];
+				Tipocontrato tc = (Tipocontrato) ControladorTipOContrato.getInstance().find((int)value);
+				
+				
+				currentTipoContrato = tc;
+			}
+		});
 		scrollPane.setViewportView(table);
+		
+		btnOk = new JButton("OK");
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cerrar();
+				
+			}
+		});
+		GridBagConstraints gbc_btnOk = new GridBagConstraints();
+		gbc_btnOk.gridx = 0;
+		gbc_btnOk.gridy = 2;
+		add(btnOk, gbc_btnOk);
 
+	}
+	
+	public void cerrar() {
+		JDialog miDialogo = PanelContrato.getDialogo();
+		if (miDialogo != null) {
+			miDialogo.dispose();
+		}
+	}
+	
+	public static Tipocontrato getTipoContrato(Contrato c){
+//		currentTipoContrato = c.getTipocontrato();
+		if(currentTipoContrato != null) {
+			return currentTipoContrato;
+		}
+		else {
+			System.out.println("El Tipo de Contrato es nulo");
+		}
+		return null;
 	}
 	
 	

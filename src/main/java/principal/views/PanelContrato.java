@@ -6,6 +6,7 @@ import javax.swing.JToolBar;
 
 import principal.controllers.ControladorContrato;
 import principal.model.Contrato;
+import principal.model.Tipocontrato;
 
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -37,6 +38,7 @@ public class PanelContrato extends JPanel {
 	private JSpinner jspLimite;
 	private JSlider jslSaldo;
 	private JLabel lblSaldoActual;
+	private static JDialog currentDialog;
 
 	/**
 	 * Create the panel.
@@ -106,6 +108,7 @@ public class PanelContrato extends JPanel {
 		
 		JLabel lblGestinDeContratos = new JLabel("Gestión de Contratos");
 		GridBagConstraints gbc_lblGestinDeContratos = new GridBagConstraints();
+		gbc_lblGestinDeContratos.gridwidth = 3;
 		gbc_lblGestinDeContratos.insets = new Insets(0, 0, 5, 5);
 		gbc_lblGestinDeContratos.gridx = 0;
 		gbc_lblGestinDeContratos.gridy = 0;
@@ -211,6 +214,9 @@ public class PanelContrato extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				PanelTipoDeContrato ptc = new PanelTipoDeContrato();
 				abrirNuevoDialogo(ptc);
+				Tipocontrato tc = PanelTipoDeContrato.getTipoContrato(current);
+				current.setTipocontrato(tc);
+				jtfTipoContrato.setText(tc.getId() + " - " + tc.getDescripcion());
 			}
 		});
 		GridBagConstraints gbc_btnTipoContrato = new GridBagConstraints();
@@ -246,8 +252,19 @@ public class PanelContrato extends JPanel {
 
 	}
 	
+	public static JDialog getDialogo() {
+		if (currentDialog != null) {
+			return currentDialog;
+		}else
+		{
+			System.out.println("El dialogo es nulo");
+			return null;
+		}
+	}
+	
 	public void abrirNuevoDialogo(JPanel panel) {
 		JDialog dialogo = new JDialog();
+		currentDialog = dialogo;
 		// El usuario no puede redimensionar el di�logo
 		dialogo.setResizable(true);
 		// t�tulo del d�alogo
@@ -263,6 +280,8 @@ public class PanelContrato extends JPanel {
 				(Toolkit.getDefaultToolkit().getScreenSize().height)/2 - dialogo.getHeight()/2);
 		// Muestro el di�logo en pantalla
 		dialogo.setVisible(true);
+		
+		
 	}
 	
 	
