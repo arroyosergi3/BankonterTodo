@@ -7,6 +7,7 @@ import javax.swing.JToolBar;
 import principal.controllers.ControladorContrato;
 import principal.model.Contrato;
 import principal.model.Tipocontrato;
+import principal.model.Usuario;
 
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -201,6 +202,7 @@ public class PanelContrato extends JPanel {
 		panel.add(lblTipoDeContrato, gbc_lblTipoDeContrato);
 		
 		jtfTipoContrato = new JTextField();
+		jtfTipoContrato.setEnabled(false);
 		GridBagConstraints gbc_jtfTipoContrato = new GridBagConstraints();
 		gbc_jtfTipoContrato.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfTipoContrato.fill = GridBagConstraints.HORIZONTAL;
@@ -234,6 +236,7 @@ public class PanelContrato extends JPanel {
 		panel.add(lblUsuario, gbc_lblUsuario);
 		
 		jtfUsuario = new JTextField();
+		jtfUsuario.setEnabled(false);
 		GridBagConstraints gbc_jtfUsuario = new GridBagConstraints();
 		gbc_jtfUsuario.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfUsuario.fill = GridBagConstraints.HORIZONTAL;
@@ -243,6 +246,15 @@ public class PanelContrato extends JPanel {
 		jtfUsuario.setColumns(10);
 		
 		JButton btnUsuario = new JButton("Seleccionar");
+		btnUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PanelUsuario pu = new PanelUsuario();
+				abrirNuevoDialogo(pu);
+				Usuario u = PanelUsuario.getUsuario();
+				current.setUsuario(u);
+				jtfTipoContrato.setText( u.getNombreUsuario());
+			}
+		});
 		GridBagConstraints gbc_btnUsuario = new GridBagConstraints();
 		gbc_btnUsuario.insets = new Insets(0, 0, 5, 0);
 		gbc_btnUsuario.gridx = 2;

@@ -125,9 +125,9 @@ public class PanelTipoDeContrato extends JPanel {
 				findbyString(this.jtfBusqueda.getText().toLowerCase(), "tipocontrato");
 		Object[][] datosFiltrados = new Object[e.size()][2];
 		for (int i = 0; i < e.size(); i++) {
-			Tipocontrato es = e.get(i);
-			datosFiltrados[i][0] = es.getId();
-			datosFiltrados[i][1] = es.getDescripcion();
+			currentTipoContrato = e.get(i);
+			datosFiltrados[i][0] = currentTipoContrato.getId();
+			datosFiltrados[i][1] = currentTipoContrato.getDescripcion();
 	} 
         dtm = new DefaultTableModel(datosFiltrados, titulosEnTabla);
         table = new JTable(dtm); 
