@@ -4,7 +4,9 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JTextField;
 
+import principal.controllers.ControladorTipOContrato;
 import principal.controllers.ControladorUsuario;
+import principal.model.Tipocontrato;
 import principal.model.Usuario;
 
 import java.awt.GridBagConstraints;
@@ -15,18 +17,23 @@ import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.event.CaretListener;
 import javax.swing.event.CaretEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PanelUsuario extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField jtfBusqueda;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JRadioButton rdbtnApellido;
+	private JRadioButton rdbtnEmail;
 	private JRadioButton rdbtnNombre;
 	private JRadioButton rdbtnDninie;
 	private JCheckBox chckbxCaseSensitive;
@@ -63,13 +70,13 @@ public class PanelUsuario extends JPanel {
 		add(jtfBusqueda, gbc_jtfBusqueda);
 		jtfBusqueda.setColumns(10);
 		
-		 rdbtnApellido = new JRadioButton("Apellido");
-		buttonGroup.add(rdbtnApellido);
-		GridBagConstraints gbc_rdbtnApellido = new GridBagConstraints();
-		gbc_rdbtnApellido.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtnApellido.gridx = 0;
-		gbc_rdbtnApellido.gridy = 1;
-		add(rdbtnApellido, gbc_rdbtnApellido);
+		 rdbtnEmail = new JRadioButton("Email");
+		buttonGroup.add(rdbtnEmail);
+		GridBagConstraints gbc_rdbtnEmail = new GridBagConstraints();
+		gbc_rdbtnEmail.insets = new Insets(0, 0, 5, 0);
+		gbc_rdbtnEmail.gridx = 0;
+		gbc_rdbtnEmail.gridy = 1;
+		add(rdbtnEmail, gbc_rdbtnEmail);
 		
 		 rdbtnNombre = new JRadioButton("Nombre");
 		buttonGroup.add(rdbtnNombre);
@@ -103,9 +110,21 @@ public class PanelUsuario extends JPanel {
 		add(scrollPane, gbc_scrollPane);
 		
 		 list = new JList(this.getDefaultListModel());
+		 list.addMouseListener(new MouseAdapter() {
+		 	@Override
+		 	public void mouseClicked(MouseEvent e) {
+				Usuario usu = (Usuario) list.getSelectedValue();
+				u = usu;
+		 	}
+		 });
 		scrollPane.setViewportView(list);
 		
 		 btnOk = new JButton("OK");
+		 btnOk.addActionListener(new ActionListener() {
+		 	public void actionPerformed(ActionEvent e) {
+		 		cerrar();
+		 	}
+		 });
 		GridBagConstraints gbc_btnOk = new GridBagConstraints();
 		gbc_btnOk.gridx = 0;
 		gbc_btnOk.gridy = 6;
@@ -124,11 +143,18 @@ public class PanelUsuario extends JPanel {
 		
 	}
 	
+	public void cerrar() {
+		JDialog miDialogo = PanelContrato.getDialogo();
+		if (miDialogo != null) {
+			miDialogo.dispose();
+		}
+	}
+	
 	public void buscar() {
 		List<Usuario> usuariosParaLista = null;
 		
-		if (rdbtnApellido.isSelected()) {
-			 usuariosParaLista = 	(List<Usuario>) ControladorUsuario.getInstance().findbyString(this.jtfBusqueda.getText(), "usuario", "apellido", this.chckbxCaseSensitive.isSelected());
+		if (rdbtnEmail.isSelected()) {
+			 usuariosParaLista = 	(List<Usuario>) ControladorUsuario.getInstance().findbyString(this.jtfBusqueda.getText(), "usuario", "email", this.chckbxCaseSensitive.isSelected());
 			
 		}
 		if (rdbtnNombre.isSelected()) {

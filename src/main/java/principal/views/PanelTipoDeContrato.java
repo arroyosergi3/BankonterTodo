@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class PanelTipoDeContrato extends JPanel {
 
@@ -37,6 +38,7 @@ public class PanelTipoDeContrato extends JPanel {
 	private JScrollPane scrollPane;
 	private JButton btnOk;
 	private static Tipocontrato currentTipoContrato = null;
+	private Object[][] datosFiltrados;
 
 	/**
 	 * Create the panel.
@@ -74,17 +76,7 @@ public class PanelTipoDeContrato extends JPanel {
 		
 		this.dtm = getDefaultTableModelNoEditable();
 		table = new JTable(dtm);
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				super.mouseClicked(e);
-				Object value = datosEnTabla[table.getSelectedRow()][0];
-				Tipocontrato tc = (Tipocontrato) ControladorTipOContrato.getInstance().find((int)value);
-				
-				
-				currentTipoContrato = tc;
-			}
-		});
+		table.addMouseListener(getMouseListener());
 		scrollPane.setViewportView(table);
 		
 		btnOk = new JButton("OK");
@@ -123,7 +115,7 @@ public class PanelTipoDeContrato extends JPanel {
 	private void buscar() {
 		List<Tipocontrato> e = (List<Tipocontrato>) ControladorTipOContrato.getInstance().
 				findbyString(this.jtfBusqueda.getText().toLowerCase(), "tipocontrato");
-		Object[][] datosFiltrados = new Object[e.size()][2];
+		 datosFiltrados = new Object[e.size()][2];
 		for (int i = 0; i < e.size(); i++) {
 			currentTipoContrato = e.get(i);
 			datosFiltrados[i][0] = currentTipoContrato.getId();
@@ -131,10 +123,32 @@ public class PanelTipoDeContrato extends JPanel {
 	} 
         dtm = new DefaultTableModel(datosFiltrados, titulosEnTabla);
         table = new JTable(dtm); 
+        table.addMouseListener(getMouseListener());
     table.setModel(dtm); 
     this.scrollPane.setViewportView(table);
 	}
 	
+	
+	private MouseListener getMouseListener () {
+		return new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (jtfBusqueda.getText().isEmpty()) {
+					super.mouseClicked(e);
+					Object value = datosEnTabla[table.getSelectedRow()][0];
+					Tipocontrato tc = (Tipocontrato) ControladorTipOContrato.getInstance().find((int)value);
+					currentTipoContrato = tc;
+				}
+				else {
+					super.mouseClicked(e);
+					Object value = datosFiltrados[table.getSelectedRow()][0];
+					Tipocontrato tc = (Tipocontrato) ControladorTipOContrato.getInstance().find((int)value);
+					currentTipoContrato = tc;
+				}
+				
+			}
+		};
+	}
 	
 	
 	private DefaultTableModel getDefaultTableModelNoEditable () {

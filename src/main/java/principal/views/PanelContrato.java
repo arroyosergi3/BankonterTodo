@@ -217,8 +217,10 @@ public class PanelContrato extends JPanel {
 				PanelTipoDeContrato ptc = new PanelTipoDeContrato();
 				abrirNuevoDialogo(ptc);
 				Tipocontrato tc = PanelTipoDeContrato.getTipoContrato(current);
-				current.setTipocontrato(tc);
-				jtfTipoContrato.setText(tc.getId() + " - " + tc.getDescripcion());
+				if (tc != null) {
+					current.setTipocontrato(tc);
+				}
+				jtfTipoContrato.setText(current.getTipocontrato().getId() + " - " + current.getTipocontrato().getDescripcion());
 			}
 		});
 		GridBagConstraints gbc_btnTipoContrato = new GridBagConstraints();
@@ -251,8 +253,11 @@ public class PanelContrato extends JPanel {
 				PanelUsuario pu = new PanelUsuario();
 				abrirNuevoDialogo(pu);
 				Usuario u = PanelUsuario.getUsuario();
-				current.setUsuario(u);
-				jtfTipoContrato.setText( u.getNombreUsuario());
+				if (u != null) {
+					current.setUsuario(u);
+				}
+				
+				jtfUsuario.setText( current.getUsuario().getNombreUsuario());
 			}
 		});
 		GridBagConstraints gbc_btnUsuario = new GridBagConstraints();

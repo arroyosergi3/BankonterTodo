@@ -30,7 +30,7 @@ public class ControladorUsuario extends Controlador {
 			try {
 				EntityManager em = getEntityManagerFactory().createEntityManager();
 				List<? extends Entidad> l = em
-						.createNativeQuery("select * from " + nombretabla + " where" + campo + "like '%" + str + "%'",
+						.createNativeQuery("select * from " + nombretabla + " where " + campo +  " like '%" + str + "%'",
 								Usuario.class)
 						.getResultList();
 				em.close();
@@ -44,7 +44,7 @@ public class ControladorUsuario extends Controlador {
 			try {
 				EntityManager em = getEntityManagerFactory().createEntityManager();
 				List<? extends Entidad> l = em
-						.createNativeQuery("select * from " + nombretabla + " where UPPER(" + campo + ") like '%" + str + "%'",
+						.createNativeQuery("select * from " + nombretabla + " where UPPER(" + campo + ") like '%" + str.toUpperCase() + "%'",
 								Usuario.class)
 						.getResultList();
 				em.close();
