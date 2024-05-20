@@ -326,7 +326,7 @@ public class PanelContrato extends JPanel {
 		this.jslSaldo.setValue(0);
 		this.jspLimite.setValue(0);
 		this.jftfFecha.setText("");
-		
+		 
 	}
 	
 	public static JDialog getDialogo() {
