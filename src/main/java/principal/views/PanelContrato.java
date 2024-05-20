@@ -2,15 +2,22 @@ package principal.views;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
+
 import javax.swing.JToolBar;
 
+import principal.controllers.Controlador;
 import principal.controllers.ControladorContrato;
+import principal.controllers.ControladorTipOContrato;
+import principal.controllers.ControladorUsuario;
 import principal.model.Contrato;
 import principal.model.Tipocontrato;
 import principal.model.Usuario;
 
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Toolkit;
@@ -23,6 +30,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
@@ -87,10 +95,20 @@ public class PanelContrato extends JPanel {
 		toolBar.add(btnUltimo);
 		
 		JButton btnNuevo = new JButton("");
+		btnNuevo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				nuevo();
+			}
+		});
 		btnNuevo.setIcon(new ImageIcon(PanelContrato.class.getResource("/res/nuevo.png")));
 		toolBar.add(btnNuevo);
 		
 		JButton btnGuardar = new JButton("");
+		btnGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				guardar();
+			}
+		});
 		btnGuardar.setIcon(new ImageIcon(PanelContrato.class.getResource("/res/guardar.png")));
 		toolBar.add(btnGuardar);
 		
@@ -267,6 +285,48 @@ public class PanelContrato extends JPanel {
 		panel.add(btnUsuario, gbc_btnUsuario);
 		mostrarPrimero();
 
+	}
+	
+	
+	public void guardar() {
+		current.setDescripcion(this.jtfDescripcion.getText());
+		current.setLimite(Float.parseFloat(String.valueOf(this.jspLimite.getValue())));
+		current.setSaldo(this.jslSaldo.getValue());
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			current.setFechaFirma(sdf.parse(this.jftfFecha.getText()));
+			this.jftfFecha.setBackground(Color.WHITE);
+			
+			if (current.getId() == 0) {
+				
+				
+				System.out.println(current.getId());
+				ControladorContrato.getInstance().persist(current);
+				JOptionPane.showMessageDialog(null, "Registro nuevo guardado con éxito");
+			}
+			else {
+				
+				ControladorContrato.getInstance().save(current);
+				JOptionPane.showMessageDialog(null, "Registro guardado con éxito");
+			}
+		} catch (ParseException e) {
+			this.jftfFecha.setBackground(Color.RED);
+			JOptionPane.showMessageDialog(null, "Error, el formato de la fecha no es válido");
+			
+		}
+		
+		
+	} 
+	
+	public void nuevo(){
+		current = new Contrato();
+		this.jtfDescripcion.setText("");
+		this.jtfTipoContrato.setText("");
+		this.jtfUsuario.setText("");
+		this.jslSaldo.setValue(0);
+		this.jspLimite.setValue(0);
+		this.jftfFecha.setText("");
+		
 	}
 	
 	public static JDialog getDialogo() {
